@@ -5,6 +5,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_account_update_params, only: [:update]
 
   def select
+    
+  end
+
+  def create
     build_resource(sign_up_params)
     session["devise.regist_data"] = {user: @user.attributes}
     session["devise.regist_data"][:encrypted_password] = nil
@@ -12,8 +16,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     binding.pry
     redirect_to confirm_phone_path
   end
-
-  
   def confirm_phone
   end
 
