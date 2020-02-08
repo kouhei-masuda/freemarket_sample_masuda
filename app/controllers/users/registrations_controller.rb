@@ -9,6 +9,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     session["devise.regist_data"] = {user: @user.attributes}
     session["devise.regist_data"][:encrypted_password] = nil
     session["devise.regist_data"][:user][:password] = params[:user][:password]
+    binding.pry
     redirect_to confirm_phone_path
   end
 
