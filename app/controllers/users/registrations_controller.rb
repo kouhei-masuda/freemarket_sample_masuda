@@ -7,6 +7,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def select
   end
 
+  def confirm_phone
+  end
+  
   # GET /resource/sign_up
   # def new
   #   super
