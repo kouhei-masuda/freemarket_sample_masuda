@@ -27,6 +27,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create_address
     @address = Address.new(address_params)
     session["devise.regist_data"][:address] = @address
+    binding.pry
     redirect_to new_regist_payment_path
   end
 
