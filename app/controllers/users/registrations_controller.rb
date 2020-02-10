@@ -21,6 +21,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def new_address
+    redirect_to new_regist_payment_path
   end
 
 
