@@ -24,6 +24,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @address = Address.new
   end
 
+  def create_address
+    @address = Address.new(address_params)
+    session["devise.regist_data"][:address] = @address
+    redirect_to new_regist_payment_path
+  end
+
+  def new_payment
+    render template: "cards/new"
+  end
+  private
+
+  def address_params
+    params.require(:address).permit(:postal_code, :prefecture, :city, :house_number, :building_name, :phone_number)
+  end
 
   # GET /resource/sign_up
   # def new
