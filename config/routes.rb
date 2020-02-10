@@ -11,7 +11,10 @@ Rails.application.routes.draw do
     get "users/new_address", to: 'users/registrations#new_address', as: :new_regist_address
     post "users/regist_address", to: 'users/registrations#create_address', as: :regist_address
     get "users/new_payment", to: 'users/registrations#new_payment', as: :new_regist_payment
+    get "users/regist_completed", to: 'users/registrations#completed', as: :regist_completed
   end
+
+  resource :cards
 
  
  
