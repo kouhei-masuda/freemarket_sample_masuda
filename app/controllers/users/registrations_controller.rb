@@ -16,8 +16,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
     binding.pry
     redirect_to confirm_phone_path
   end
+  
   def confirm_phone
   end
+
+  def new_address
+  end
+
 
   # GET /resource/sign_up
   # def new
