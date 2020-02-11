@@ -40,6 +40,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     params.require(:address).permit(:postal_code, :prefecture, :city, :house_number, :building_name, :phone_number)
   end
 
+  def completed
+    @user = build_resource(session["devise.regist_data"]["user"])
+    @user.build_address(session["devise.regist_data"]["address"])
+    @user.save
+  end
+
   # GET /resource/sign_up
   # def new
   #   super
