@@ -13,7 +13,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     session["devise.regist_data"] = {user: @user.attributes}
     session["devise.regist_data"][:encrypted_password] = nil
     session["devise.regist_data"][:user][:password] = params[:user][:password]
-    binding.pry
     redirect_to confirm_phone_path
   end
   
@@ -27,24 +26,27 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create_address
     @address = Address.new(address_params)
     session["devise.regist_data"][:address] = @address
-    binding.pry
     redirect_to new_regist_payment_path
   end
 
   def new_payment
     render template: "cards/new"
   end
+  
+  def completed
+    @user = build_resource(session["devise.regist_data"]["user"])
+    @user.build_address(session["devise.regist_data"]["address"])
+    binding.pry
+    @user.save
+  end
+
   private
 
   def address_params
     params.require(:address).permit(:postal_code, :prefecture, :city, :house_number, :building_name, :phone_number)
   end
 
-  def completed
-    @user = build_resource(session["devise.regist_data"]["user"])
-    @user.build_address(session["devise.regist_data"]["address"])
-    @user.save
-  end
+ 
 
   # GET /resource/sign_up
   # def new

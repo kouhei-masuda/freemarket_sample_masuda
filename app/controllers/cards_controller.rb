@@ -3,6 +3,6 @@ class CardsController < ApplicationController
   end
 
   def create
-    redirect_to regist_completed_path
+    redirect_to controller: 'users/registrations', action: 'completed'
   end
 end
