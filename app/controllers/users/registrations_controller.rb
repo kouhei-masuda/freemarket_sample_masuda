@@ -36,7 +36,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def completed
     @user = build_resource(session["devise.regist_data"]["user"])
     @user.build_address(session["devise.regist_data"]["address"])
-    binding.pry
     @user.save
   end
 
