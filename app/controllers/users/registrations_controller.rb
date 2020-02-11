@@ -21,6 +21,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def new_address
     @address = Address.new
+    if @address.valid?
+      session["devise.regist_data"][:address] = @address
+      redirect_to new_regist_payment_path
+    else
+      redirect_to new_regist_address_path, alert: @address.errors.full_messages
+    end
   end
 
   def create_address
@@ -37,6 +43,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @user = build_resource(session["devise.regist_data"]["user"])
     @user.build_address(session["devise.regist_data"]["address"])
     @user.save
+    binding.pry
   end
 
   private
