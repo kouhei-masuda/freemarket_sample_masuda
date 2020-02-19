@@ -5,7 +5,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_account_update_params, only: [:update]
 
   def select
-    
   end
 
   def create
@@ -21,18 +20,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def new_address
     @address = Address.new
+  end
+
+  def create_address
+    
+    @address = Address.new(address_params)
     if @address.valid?
       session["devise.regist_data"][:address] = @address
       redirect_to new_regist_payment_path
     else
       redirect_to new_regist_address_path, alert: @address.errors.full_messages
     end
-  end
 
-  def create_address
-    @address = Address.new(address_params)
-    session["devise.regist_data"][:address] = @address
-    redirect_to new_regist_payment_path
   end
 
   def new_payment
@@ -42,8 +41,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def completed
     @user = build_resource(session["devise.regist_data"]["user"])
     @user.build_address(session["devise.regist_data"]["address"])
-    @user.save
-    binding.pry
+    if @user.save
+      sign_up(resource_name, resource)
+    else
+      redirect_to root_path, alert: @user.errors.full_messages
+    end
   end
 
   private
@@ -51,8 +53,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def address_params
     params.require(:address).permit(:postal_code, :prefecture, :city, :house_number, :building_name, :phone_number)
   end
-
- 
 
   # GET /resource/sign_up
   # def new
@@ -99,11 +99,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def configure_account_update_params
   #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
   # end
-
+  protected
   # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  def after_sign_up_path_for(resource)
+    confirm_phone_path
+  end
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
