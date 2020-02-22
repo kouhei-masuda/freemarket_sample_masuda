@@ -42,7 +42,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @user = build_resource(session["devise.regist_data"]["user"])
     @user.build_address(session["devise.regist_data"]["address"])
     if @user.save
-      sign_up(resource_name, resource)
+      # sign_up(resource_name, resource)
+      binding.pry
     else
       redirect_to root_path, alert: @user.errors.full_messages
     end
