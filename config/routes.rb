@@ -14,8 +14,8 @@ Rails.application.routes.draw do
     get "users/regist_completed", to: 'users/registrations#completed', as: :regist_completed
   end
 
-  resource :cards
-
+  resources :cards
+  resources :item
  
  
  
